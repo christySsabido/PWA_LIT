@@ -1,10 +1,16 @@
 import {LitElement, html, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, query} from 'lit/decorators.js';
 import {styles} from './styles.js';
 import {styleMap} from 'lit/directives/style-map.js';
 @customElement('motion-carousel')
 export class MotionCarousel extends LitElement {
   static styles = styles;
+
+  @query('slot[name="selected"]', true)
+  private selectedSlot!: HTMLSlotElement;
+
+  @query('slot[name="previous"]', true)
+  private previousSlot!: HTMLSlotElement;
 
   private selectedInternal = 0;
   @property({type: Number})
@@ -58,10 +64,15 @@ export class MotionCarousel extends LitElement {
   }
 
   private updateSlots() {
-    this.children[this.previous]?.removeAttribute('slot');
+    // unset old slot state
+    this.selectedSlot.assignedElements()[0]?.removeAttribute('slot');
+    this.previousSlot.assignedElements()[0]?.removeAttribute('slot');
+    // set slots
+    this.children[this.previous]?.setAttribute('slot', 'previous');
     this.children[this.selected]?.setAttribute('slot', 'selected');
   }
 
 }
+
 
 
