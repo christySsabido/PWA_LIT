@@ -1,15 +1,12 @@
 import { html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('word-viewer')
 class WordViewer extends LitElement {
+  @property() words = 'initial value';
+
   render() {
-    return html`<pre>A super expressive and efficient template!</pre>`
+    return html`<pre>${this.words}</pre>`
   }
 }
 
-declare global {
-  interface HTMLElementTagNameMap {
-    "word-viewer": WordViewer
-  }
-}
